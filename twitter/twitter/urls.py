@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from about.views import splash, login
+from tweets.views import home, profile, hashtag
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", splash, name="splash"),
+    path("login/", login, name="login"),
+    path("home/", home, name="home"),
+    path("profile/", profile, name="profile"),
+    path("hashtag/", hashtag, name="hashtag"),
 ]
