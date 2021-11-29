@@ -8,10 +8,20 @@
 
 <h2>Here are all your tweets!</h2>
 
+<form method="POST" action="/core/">
+    {% csrf_token %}
+
+    <input type="text" name="title" placeholder="Title here">
+    <input type="text" name="body" placeholder="Body here">
+    <button type="submit">Tweet</button>
+</form>
+
 {% for tweet in tweets %}
     <p>{{ tweet.get_datetime }}</p>
+    <p>{{ tweet.author }}</p>
     <p>{{ tweet.title }}</p>
     <p>{{ tweet.body }}</p>
+
     <hr>
 {% endfor %}
 

@@ -7,7 +7,7 @@ class Tweet(models.Model):
     author = models.ForeignKey(
         User, related_name="User", on_delete=models.CASCADE, null=True
     )
-    title = models.CharField(max_length=140)
+    title = models.CharField(max_length=280)
     body = models.TextField()
 
     def __str__(self):
