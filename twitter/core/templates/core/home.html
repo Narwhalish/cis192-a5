@@ -1,0 +1,9 @@
+<h1>Home Page</h1>
+<h2>Here are all your tweets!</h2>
+
+<div>
+  {% for tweet in tweets %}
+      <p>{{ tweet.title }}</p>
+      <p>{{ tweet.body }}</p>
+  {% endfor %}
+</div>
