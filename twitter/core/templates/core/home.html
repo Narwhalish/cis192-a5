@@ -1,4 +1,4 @@
-{% extends "../base.html" %}
+{% extends "base.html" %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -11,8 +11,7 @@
 <form method="POST" action="/core/">
     {% csrf_token %}
 
-    <input type="text" name="title" placeholder="Title here">
-    <input type="text" name="body" placeholder="Body here">
+    <input type="text" name="body" required placeholder="tweet here" minlength="0" maxlength="280">
     <button type="submit">Tweet</button>
 </form>
 

@@ -7,11 +7,10 @@ class Tweet(models.Model):
     author = models.ForeignKey(
         User, related_name="User", on_delete=models.CASCADE, null=True
     )
-    title = models.CharField(max_length=280)
-    body = models.TextField()
+    body = models.TextField(max_length=280)
 
     def __str__(self):
-        return self.title
+        return self.body[:14]
 
     def get_datetime(self):
         return self.created_at.strftime("%b %d %Y %H:%M:%S")

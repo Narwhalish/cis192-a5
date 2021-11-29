@@ -14,13 +14,12 @@ def home(request):
     if request.method == "POST":
         Tweet.objects.create(
             author=request.user,
-            title=request.POST["title"],
             body=request.POST["body"],
         )
 
         return HttpResponseRedirect(reverse("home"))
     else:
-        context = {"title": "Home", "tweets": Tweet.objects.all()}
+        context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
 
         return render(request, "core/home.html", context)
 
