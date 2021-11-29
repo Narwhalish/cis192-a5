@@ -12,3 +12,6 @@ class Tweet(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_datetime(self):
+        return self.created_at.strftime("%b %d %Y %H:%M:%S")
