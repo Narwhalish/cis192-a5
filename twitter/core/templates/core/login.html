@@ -4,13 +4,12 @@
 
 {% block content %}
 
-<h1>Login Page</h1>
-
 <h1>Sign Up</h1>
-<form method="POST" action="/core/login/">
+<form method="POST" action="/core/signup/">
     {% csrf_token %}
 
     <input type="text" name="username" required placeholder="username" minlength="1" maxlength="50"/>
+    <input type="email" name="email" required placeholder="email" minlength="1" maxlength="320"/>
     <input type="password" name="password" required placeholder="password" minlength="1" maxlength="50"/>
     <button type="submit">Sign Up</button>
 </form>

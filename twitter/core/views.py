@@ -2,15 +2,36 @@ from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedi
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from core.models import Tweet
+from django.contrib.auth import login as _login, authenticate as _authenticate
+from django.contrib.auth.models import User
 
 # Create your views here.
 def login(request):
     if request.method == "POST":
-        return redirect(reverse("home"))
-    else:
-        context = {"title": "Login"}
+        user = _authenticate(
+            request,
+            username=request.POST["username"],
+            password=request.POST["password"],
+        )
 
-        return render(request, "core/login.html", context)
+        if user:
+            _login(request, user)
+            return redirect(reverse("home"))
+
+    context = {"title": "Login"}
+    return render(request, "core/login.html", context)
+
+
+def signup(request):
+    if request.method == "POST":
+        user = User.objects.create_user(
+            username=request.POST["username"],
+            email=request.POST["email"],
+            password=request.POST["password"],
+        )
+
+        _login(request, user)
+        return redirect(reverse("home"))
 
 
 def home(request):
@@ -21,10 +42,9 @@ def home(request):
         )
 
         return redirect(reverse("home"))
-    else:
-        context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
+    context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
 
-        return render(request, "core/home.html", context)
+    return render(request, "core/home.html", context)
 
 
 def profile(request):
