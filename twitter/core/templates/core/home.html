@@ -11,7 +11,7 @@
 <form method="POST" action="/core/">
     {% csrf_token %}
 
-    <input type="text" name="body" required placeholder="tweet here" minlength="0" maxlength="280">
+    <input type="text" name="body" required placeholder="tweet here" minlength="1" maxlength="280">
     <button type="submit">Tweet</button>
 </form>
 

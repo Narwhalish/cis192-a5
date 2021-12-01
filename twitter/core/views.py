@@ -1,13 +1,16 @@
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from core.models import Tweet
 
 # Create your views here.
 def login(request):
-    context = {"title": "Login"}
+    if request.method == "POST":
+        return redirect(reverse("home"))
+    else:
+        context = {"title": "Login"}
 
-    return render(request, "core/login.html", context)
+        return render(request, "core/login.html", context)
 
 
 def home(request):
@@ -17,7 +20,7 @@ def home(request):
             body=request.POST["body"],
         )
 
-        return HttpResponseRedirect(reverse("home"))
+        return redirect(reverse("home"))
     else:
         context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
 
