@@ -1,11 +1,12 @@
-from django.urls import path, re_path, reverse
-from core.views import *
-from django.views.generic.base import RedirectView
+from django.urls import path
+from core.views import home, login, signup, logout, profile, hashtag
+
 
 urlpatterns = [
     path("", home, name="home"),
     path("login/", login, name="login"),
-    re_path(r"^signup/$", RedirectView.as_view(pattern_name="login"), name="signup"),
+    path("signup/", signup, name="signup"),
+    path("logout/", logout, name="logout"),
     path("profile/", profile, name="profile"),
     path("hashtag/", hashtag, name="hashtag"),
 ]

@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from core.models import Tweet
-from django.contrib.auth import login as _login, authenticate as _authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth import (
+    login as _login,
+    authenticate as _authenticate,
+    logout as _logout,
+)
 
-# Create your views here.
+
 def login(request):
     if request.method == "POST":
         user = _authenticate(
@@ -33,9 +37,15 @@ def signup(request):
         _login(request, user)
         return redirect(reverse("home"))
 
-    context = {"title": "Signup"}
+    context = {"title": "Login"}
 
-    return render(request, "core/signup.html", context)
+    return redirect(reverse("login"), context)
+
+
+def logout(request):
+    _logout(request)
+
+    return redirect(reverse("login"))
 
 
 def home(request):
@@ -47,9 +57,15 @@ def home(request):
 
         return redirect(reverse("home"))
 
-    context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
+    if request.user.is_authenticated:
+        context = {
+            "title": "Home",
+            "tweets": Tweet.objects.filter(author=request.user).order_by("-created_at"),
+        }
 
-    return render(request, "core/home.html", context)
+        return render(request, "core/home.html", context)
+
+    return redirect(reverse("login"))
 
 
 def profile(request):
