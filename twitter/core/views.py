@@ -1,4 +1,3 @@
-from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from core.models import Tweet
@@ -19,6 +18,7 @@ def login(request):
             return redirect(reverse("home"))
 
     context = {"title": "Login"}
+
     return render(request, "core/login.html", context)
 
 
@@ -33,6 +33,10 @@ def signup(request):
         _login(request, user)
         return redirect(reverse("home"))
 
+    context = {"title": "Signup"}
+
+    return render(request, "core/signup.html", context)
+
 
 def home(request):
     if request.method == "POST":
@@ -42,6 +46,7 @@ def home(request):
         )
 
         return redirect(reverse("home"))
+
     context = {"title": "Home", "tweets": Tweet.objects.all()[::-1]}
 
     return render(request, "core/home.html", context)
