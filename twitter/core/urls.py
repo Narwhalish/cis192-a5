@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import re_path, path
 from core.views import home, login, signup, logout, profile, hashtag
 
 

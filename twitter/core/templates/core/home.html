@@ -19,6 +19,11 @@
     <button type="submit">Tweet</button>
 </form>
 
+<form method="GET" action="/core">
+    <button type="submit" name="filter" value="all">All Tweets</button>
+    <button type="submit" name="filter" value="user">My Tweets</button>
+</form>
+
 {% for tweet in tweets %}
     <p>{{ tweet.get_datetime }}</p>
     <p>{{ tweet.author }}</p>

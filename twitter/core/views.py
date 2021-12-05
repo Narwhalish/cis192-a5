@@ -48,7 +48,7 @@ def logout(request):
     return redirect(reverse("login"))
 
 
-def home(request):
+def home(request, filter="all"):
     if request.method == "POST":
         Tweet.objects.create(
             author=request.user,
@@ -58,9 +58,12 @@ def home(request):
         return redirect(reverse("home"))
 
     if request.user.is_authenticated:
+        tweets = Tweet.objects.all().order_by("-created_at")
         context = {
             "title": "Home",
-            "tweets": Tweet.objects.filter(author=request.user).order_by("-created_at"),
+            "tweets": tweets
+            if (filter == "all")
+            else tweets.filter(author=request.user),
         }
 
         return render(request, "core/home.html", context)
