@@ -48,7 +48,7 @@ def logout(request):
     return redirect(reverse("login"))
 
 
-def home(request, filter="all"):
+def home(request):
     if request.method == "POST":
         Tweet.objects.create(
             author=request.user,
@@ -62,7 +62,7 @@ def home(request, filter="all"):
         context = {
             "title": "Home",
             "tweets": tweets
-            if (filter == "all")
+            if (request.GET.get("filter") == "all")
             else tweets.filter(author=request.user),
         }
 
