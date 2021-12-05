@@ -8,7 +8,6 @@ class Tweet(models.Model):
         User, related_name="User", on_delete=models.CASCADE, null=True
     )
     body = models.CharField(max_length=280, blank=False)
-    # HashContains = [k for k in body.split() if k.startswith("#")]
 
     def __str__(self):
         return self.body[:14]
@@ -16,11 +15,8 @@ class Tweet(models.Model):
     def get_datetime(self):
         return self.created_at.strftime("%b %d %Y %H:%M:%S")
 
-    def get_Hash_Array(self):
-        return self.HashContains
+    def get_hashtags(self):
+        return [k[1:] for k in self.body.split() if k.startswith("#")]
 
-    def contains_Hash(self, hashtag):
-        return hashtag in self.HashContains
-
-    def HasHashtags(self):
-        return self.HashContains != []
+    def contains_hashtags(self):
+        return self.get_hashtags() != []

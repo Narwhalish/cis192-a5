@@ -5,5 +5,20 @@
 {% block content %}
 
 <h1>Hashtag Page</h1>
+{% if hashtags %}
+    {% for hash in hashtags %}
+
+        <a href="/core/hashtag/?tag=%23{{ hash }}">#{{ hash }}</a>
+    {% endfor %}
+{% elif tweets %}
+    {% for tweet in tweets %}
+        <p>{{ tweet.get_datetime }}</p>
+        <p>{{ tweet.author }}</p>
+        <p>{{ tweet.title }}</p>
+        <p>{{ tweet.body }}</p>
+
+        <hr>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

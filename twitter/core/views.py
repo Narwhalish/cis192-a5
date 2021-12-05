@@ -78,6 +78,20 @@ def profile(request):
 
 
 def hashtag(request):
-    context = {"title": "Hashtags"}
+    context = {"title": "Hashtag"}
 
-    return render(request, "core/hashtag.html", context)
+    if request.GET.get("tag"):
+        context["tweets"] = Tweet.objects.filter(body__contains=request.GET.get("tag"))
+
+        return render(request, "core/hashtag.html", context)
+    else:
+        tweets_hashtags = [t for t in Tweet.objects.all() if t.contains_hashtags()]
+        hashtags = []
+
+        for tweet in tweets_hashtags:
+            hashtags.extend(tweet.get_hashtags())
+
+        hashtags = list(set(hashtags))
+        context["hashtags"] = hashtags
+
+        return render(request, "core/hashtag.html", context)

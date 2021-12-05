@@ -22,6 +22,7 @@
 <form method="GET" action="/core">
     <button type="submit" name="filter" value="all">All Tweets</button>
     <button type="submit" name="filter" value="user">My Tweets</button>
+    <button type="submit" formaction="/core/hashtag">Hashtags</button>
 </form>
 
 {% for tweet in tweets %}
