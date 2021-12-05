@@ -31,6 +31,15 @@
     <p>{{ tweet.title }}</p>
     <p>{{ tweet.body }}</p>
 
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit" name="like" value="{{ tweet.id }}">Like</button>
+    </form>
+
+    {% if request.user in tweet.liked_by.all %}
+        <p>You liked this tweet!</p>
+    {% endif %}
     <hr>
 {% endfor %}
 

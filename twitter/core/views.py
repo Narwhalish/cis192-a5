@@ -13,8 +13,8 @@ def login(request):
     if request.method == "POST":
         user = _authenticate(
             request,
-            username=request.POST["username"],
-            password=request.POST["password"],
+            username=request.POST.get("username"),
+            password=request.POST.get("password"),
         )
 
         if user:
@@ -29,9 +29,9 @@ def login(request):
 def signup(request):
     if request.method == "POST":
         user = User.objects.create_user(
-            username=request.POST["username"],
-            email=request.POST["email"],
-            password=request.POST["password"],
+            username=request.POST.get("username"),
+            email=request.POST.get("email"),
+            password=request.POST.get("password"),
         )
 
         _login(request, user)
@@ -50,12 +50,24 @@ def logout(request):
 
 def home(request):
     if request.method == "POST":
-        Tweet.objects.create(
-            author=request.user,
-            body=request.POST["body"],
-        )
+        if request.POST.get("like"):
+            tweet = Tweet.objects.get(id=request.POST.get("like"))
 
-        return redirect(reverse("home"))
+            if request.user in tweet.liked_by.all():
+                tweet.liked_by.remove(request.user)
+            else:
+                tweet.liked_by.add(request.user)
+
+            tweet.save()
+        else:
+            tweet = Tweet.objects.create(
+                author=request.user,
+                body=request.POST.get("body"),
+            )
+            tweet.liked_by.add(request.user)
+            tweet.save()
+
+        return redirect(request.get_full_path())
 
     if request.user.is_authenticated:
         tweets = Tweet.objects.all().order_by("-created_at")

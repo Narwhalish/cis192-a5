@@ -8,6 +8,7 @@ class Tweet(models.Model):
         User, related_name="User", on_delete=models.CASCADE, null=True
     )
     body = models.CharField(max_length=280, blank=False)
+    liked_by = models.ManyToManyField(User, through="Like")
 
     def __str__(self):
         return self.body[:14]
@@ -20,3 +21,11 @@ class Tweet(models.Model):
 
     def contains_hashtags(self):
         return self.get_hashtags() != []
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("user", "tweet")
